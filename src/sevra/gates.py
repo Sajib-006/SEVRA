@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import json
 import math
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Mapping, Protocol
+from typing import Any, Protocol
 
 from .schema import Attempt
 
@@ -95,7 +96,7 @@ class LinearGate:
     intercept: float = 0.0
 
     def score(self, attempt: Attempt) -> float:
-        values = dict(zip(FEATURE_NAMES, observable_features(attempt)))
+        values = dict(zip(FEATURE_NAMES, observable_features(attempt), strict=True))
         logit = self.intercept + sum(
             float(self.weights.get(name, 0.0)) * value for name, value in values.items()
         )
@@ -105,7 +106,7 @@ class LinearGate:
         return exp_logit / (1.0 + exp_logit)
 
     @classmethod
-    def from_json(cls, path: str | Path) -> "LinearGate":
+    def from_json(cls, path: str | Path) -> LinearGate:
         payload = json.loads(Path(path).read_text())
         return cls(weights=payload["weights"], intercept=float(payload.get("intercept", 0.0)))
 

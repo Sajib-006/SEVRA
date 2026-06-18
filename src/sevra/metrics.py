@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Iterable, Sequence
 from dataclasses import asdict, dataclass
-from typing import Iterable, Sequence
 
 
 @dataclass(frozen=True)
@@ -42,19 +42,25 @@ def evaluate_policy(
     selected = [float(score) >= threshold for score in gate_scores]
     final = [
         bool(verified) if choose else bool(base)
-        for base, verified, choose in zip(base_correct, verified_correct, selected)
+        for base, verified, choose in zip(
+            base_correct, verified_correct, selected, strict=True
+        )
     ]
     fixes = [
         choose and not bool(base) and bool(verified)
-        for base, verified, choose in zip(base_correct, verified_correct, selected)
+        for base, verified, choose in zip(
+            base_correct, verified_correct, selected, strict=True
+        )
     ]
     flips = [
         choose and bool(base) and not bool(verified)
-        for base, verified, choose in zip(base_correct, verified_correct, selected)
+        for base, verified, choose in zip(
+            base_correct, verified_correct, selected, strict=True
+        )
     ]
     selected_tokens = [
         int(tokens) if choose else 0
-        for tokens, choose in zip(verification_tokens, selected)
+        for tokens, choose in zip(verification_tokens, selected, strict=True)
     ]
     n = len(final)
     return PolicyMetrics(

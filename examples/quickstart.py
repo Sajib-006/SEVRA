@@ -1,4 +1,9 @@
-from sevra import Attempt, CallableGate, SEVRAController, VerificationOutput
+from sevra import (
+    Attempt,
+    CallableGate,
+    SEVRAController,
+    VerificationOutput,
+)
 
 
 # Replace this function with a classifier, calibrated feature gate, or hosted model.
