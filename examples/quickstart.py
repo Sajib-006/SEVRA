@@ -5,7 +5,6 @@ from sevra import (
     VerificationOutput,
 )
 
-
 # Replace this function with a classifier, calibrated feature gate, or hosted model.
 gate = CallableGate(
     lambda attempt: 0.92 if attempt.base_done_reason == "length" else 0.15

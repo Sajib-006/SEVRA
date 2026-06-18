@@ -8,7 +8,6 @@ from .actions import Action, active_verification_prompt
 from .gates import RecoverabilityGate
 from .schema import Attempt, VerificationOutput
 
-
 Verifier = Callable[[str, Attempt], VerificationOutput | str]
 
 

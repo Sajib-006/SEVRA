@@ -9,7 +9,6 @@ from typing import Any, Protocol
 
 from .schema import Attempt
 
-
 FEATURE_NAMES = (
     "difficulty",
     "verification_need",
