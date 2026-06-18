@@ -28,15 +28,27 @@ specific question after seeing the first attempt:
 This distinction matters. A hard problem may already be solved correctly, while an easy problem
 may have a truncated attempt. Blindly verifying both adds cost and can introduce harmful flips.
 
-```mermaid
-flowchart LR
-    Q[User query] --> S[Base solver]
-    S --> A[Attempt + runtime signals]
-    A --> G[Recoverability gate]
-    G -->|score below threshold| K[Accept base answer]
-    G -->|score at or above threshold| V[Active verification]
-    V --> R[Checked or repaired answer]
-```
+## How it works
+
+<p align="center">
+  <img src="assets/sevra.png" width="100%" alt="SEVRA offline policy construction and online inference workflow">
+</p>
+
+**Offline policy construction.** A frozen solver produces base attempts for training problems.
+Candidate recovery actions are executed, and their helpful fixes, harmful flips, and realized costs
+are logged. Gold answers are used only to create these offline labels. SEVRA then learns a
+recoverability policy from the problem, attempted solution, completion state, token counts,
+finalizer use, and task features; the solver weights remain unchanged.
+
+**Online inference.** The frozen solver first produces one base attempt. The deployed SEVRA router
+sees only that attempt and serving-visible metadata, never the gold answer. It either accepts the
+answer with no extra call or invokes active verification to run candidate-specific checks and repair
+the answer when necessary. The continuation branch shown in the figure is an experimental
+comparison baseline, not an additional requirement for using SEVRA.
+
+In production, log the selected action, realized tokens, latency, answer changes, helpful fixes, and
+harmful flips. These measurements make threshold calibration and workload-shift monitoring
+possible without changing the underlying solver.
 
 ## Main findings
 
