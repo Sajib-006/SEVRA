@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If SEVRA helps your work, please cite the software and associated manuscript."
+title: "SEVRA: Selective Verification for Reasoning Allocation"
+type: software
+version: 0.1.0
+date-released: 2026-06-17
+authors:
+  - family-names: "Dip"
+    given-names: "Sajib Acharjee"
+repository-code: "https://github.com/Sajib-006/SEVRA"
+url: "https://github.com/Sajib-006/SEVRA"
+license: MIT
+preferred-citation:
+  type: article
+  title: "Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning"
+  year: 2026
+  authors:
+    - family-names: "Dip"
+      given-names: "Sajib Acharjee"

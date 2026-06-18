@@ -1,0 +1,4 @@
+{"base_correct": true, "verified_correct": true, "gate_score": 0.10, "verification_tokens": 420}
+{"base_correct": false, "verified_correct": true, "gate_score": 0.91, "verification_tokens": 510}
+{"base_correct": true, "verified_correct": false, "gate_score": 0.20, "verification_tokens": 470}
+{"base_correct": false, "verified_correct": false, "gate_score": 0.70, "verification_tokens": 390}

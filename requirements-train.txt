@@ -1,0 +1,2 @@
+# Install a CUDA-enabled PyTorch wheel first when training on NVIDIA GPUs.
+-e .[train]
