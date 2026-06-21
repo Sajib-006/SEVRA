@@ -15,8 +15,8 @@ into an incorrect one.
 The core library is model- and provider-agnostic. Bring any recoverability scorer and any LLM
 client; SEVRA handles the decision, active-verification prompt, and policy accounting.
 
-> Associated manuscript: **Think Again or Think Longer? Selective Verification for
-> Budget-Aware Reasoning** (2026).
+> Associated manuscript: [**Think Again or Think Longer? Selective Verification for
+> Budget-Aware Reasoning**](https://arxiv.org/abs/2606.19808) (2026).
 
 ## Why SEVRA?
 
@@ -49,6 +49,35 @@ comparison baseline, not an additional requirement for using SEVRA.
 In production, log the selected action, realized tokens, latency, answer changes, helpful fixes, and
 harmful flips. These measurements make threshold calibration and workload-shift monitoring
 possible without changing the underlying solver.
+
+## Pretrained artifacts
+
+| Artifact | Description |
+|---|---|
+| [SEVRA Qwen3-0.6B gate](https://huggingface.co/Sajib-006/sevra-qwen3-0.6b-gate) | Smaller QLoRA recoverability classifier |
+| [SEVRA Qwen3-1.7B gate](https://huggingface.co/Sajib-006/sevra-qwen3-1.7b-gate) | Primary gate used for the strongest reported selective policy |
+| [SEVRA Recovery Outcomes](https://huggingface.co/datasets/Sajib-006/sevra-recovery-outcomes) | 17,120 action-outcome rows across train, MATH500, GSM8K, and CommonsenseQA |
+
+Load the complete intervention-outcome dataset directly from the Hub:
+
+```python
+from datasets import load_dataset
+
+outcomes = load_dataset("Sajib-006/sevra-recovery-outcomes")
+```
+
+The pretrained gate plugs into the same provider-agnostic controller:
+
+```python
+from sevra import HuggingFaceGate, SEVRAController
+
+gate = HuggingFaceGate.from_pretrained("Sajib-006/sevra-qwen3-1.7b-gate")
+controller = SEVRAController(gate=gate, threshold=gate.threshold)
+```
+
+Install the optional model dependencies with `pip install -e ".[train]"`. The adapter loader
+automatically retrieves the matching Qwen3 sequence-classification base and the frozen development
+threshold. Use `load_in_4bit=True` on a compatible CUDA system to reduce memory use.
 
 ## Main findings
 
@@ -179,7 +208,7 @@ python scripts/train_gate.py \
 
 python scripts/evaluate_gate.py \
   --input data/recovery_test.jsonl \
-  --model-dir outputs/gates/qwen3-0.6b \
+  --model-dir Sajib-006/sevra-qwen3-0.6b-gate \
   --output outputs/evaluation.json
 ```
 
@@ -282,10 +311,12 @@ If SEVRA is useful in your research or system, please cite the repository and ma
 ```bibtex
 @misc{dip2026sevra,
   title        = {Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning},
-  author       = {Sajib Acharjee Dip and others},
+  author       = {Sajib Acharjee Dip and Dawei Zhou and Liqing Zhang},
   year         = {2026},
-  howpublished = {\url{https://github.com/Sajib-006/SEVRA}},
-  note         = {SEVRA software release}
+  eprint       = {2606.19808},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2606.19808}
 }
 ```
 

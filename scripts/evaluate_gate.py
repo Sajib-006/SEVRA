@@ -7,6 +7,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
+from huggingface_hub import hf_hub_download
 from peft import PeftConfig, PeftModel
 from sklearn.metrics import average_precision_score, roc_auc_score
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, BitsAndBytesConfig
@@ -35,13 +36,13 @@ def load_rows(path: Path) -> tuple[list[dict], dict[str, list[dict]]]:
 
 
 def predict_probabilities(
-    model_dir: Path,
+    model_ref: str,
     examples: list[dict],
     batch_size: int,
     max_length: int,
 ) -> np.ndarray:
-    adapter_config = PeftConfig.from_pretrained(str(model_dir))
-    tokenizer = AutoTokenizer.from_pretrained(str(model_dir), use_fast=True)
+    adapter_config = PeftConfig.from_pretrained(model_ref)
+    tokenizer = AutoTokenizer.from_pretrained(model_ref, use_fast=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
     quantization_config = BitsAndBytesConfig(
@@ -59,7 +60,7 @@ def predict_probabilities(
         device_map="auto",
     )
     base_model.config.pad_token_id = tokenizer.pad_token_id
-    model = PeftModel.from_pretrained(base_model, str(model_dir))
+    model = PeftModel.from_pretrained(base_model, model_ref)
     model.eval()
 
     probabilities = []
@@ -100,7 +101,7 @@ def main() -> None:
         for example_id in example_ids
     ]
     probabilities = predict_probabilities(
-        Path(args.model_dir),
+        args.model_dir,
         representative_rows,
         args.batch_size,
         args.max_length,
@@ -108,7 +109,12 @@ def main() -> None:
 
     threshold = args.threshold
     if threshold is None:
-        metrics_path = Path(args.model_dir) / "final_metrics.json"
+        local_metrics = Path(args.model_dir) / "final_metrics.json"
+        metrics_path = (
+            local_metrics
+            if local_metrics.exists()
+            else Path(hf_hub_download(repo_id=args.model_dir, filename="final_metrics.json"))
+        )
         threshold = float(json.loads(metrics_path.read_text())["best_dev_policy"]["threshold"])
 
     base_correct = []

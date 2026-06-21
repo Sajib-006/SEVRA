@@ -9,7 +9,11 @@ description = "Selective Verification for Reasoning Allocation"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
-authors = [{name = "Sajib Acharjee Dip"}]
+authors = [
+  {name = "Sajib Acharjee Dip"},
+  {name = "Dawei Zhou"},
+  {name = "Liqing Zhang"},
+]
 keywords = [
   "adaptive inference",
   "language models",
@@ -35,6 +39,7 @@ train = [
   "accelerate>=1.6,<2",
   "bitsandbytes>=0.45,<1",
   "datasets>=3.5,<5",
+  "huggingface-hub>=0.36,<2",
   "numpy>=1.26,<3",
   "peft>=0.15,<1",
   "scikit-learn>=1.5,<2",
@@ -52,6 +57,9 @@ sevra-replay = "sevra.cli:main"
 Homepage = "https://github.com/Sajib-006/SEVRA"
 Repository = "https://github.com/Sajib-006/SEVRA"
 Demo = "https://huggingface.co/spaces/sevra-space/sevra-replay"
+Paper = "https://arxiv.org/abs/2606.19808"
+Models = "https://huggingface.co/Sajib-006/sevra-qwen3-1.7b-gate"
+Dataset = "https://huggingface.co/datasets/Sajib-006/sevra-recovery-outcomes"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

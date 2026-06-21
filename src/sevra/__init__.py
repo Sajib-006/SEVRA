@@ -9,6 +9,7 @@ from .gates import (
     attempt_from_row,
     format_gate_input,
 )
+from .hub import HuggingFaceGate
 from .metrics import PolicyMetrics, calibrate_threshold, evaluate_policy
 from .schema import Attempt, VerificationOutput
 
@@ -18,6 +19,7 @@ __all__ = [
     "CallableGate",
     "Decision",
     "LinearGate",
+    "HuggingFaceGate",
     "PolicyMetrics",
     "RecoverabilityGate",
     "Result",

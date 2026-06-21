@@ -7,6 +7,10 @@ date-released: 2026-06-17
 authors:
   - family-names: "Dip"
     given-names: "Sajib Acharjee"
+  - family-names: "Zhou"
+    given-names: "Dawei"
+  - family-names: "Zhang"
+    given-names: "Liqing"
 repository-code: "https://github.com/Sajib-006/SEVRA"
 url: "https://github.com/Sajib-006/SEVRA"
 license: MIT
@@ -14,6 +18,11 @@ preferred-citation:
   type: article
   title: "Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning"
   year: 2026
+  url: "https://arxiv.org/abs/2606.19808"
   authors:
     - family-names: "Dip"
       given-names: "Sajib Acharjee"
+    - family-names: "Zhou"
+      given-names: "Dawei"
+    - family-names: "Zhang"
+      given-names: "Liqing"
