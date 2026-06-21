@@ -309,14 +309,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 If SEVRA is useful in your research or system, please cite the repository and manuscript:
 
 ```bibtex
-@misc{dip2026sevra,
-  title        = {Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning},
-  author       = {Sajib Acharjee Dip and Dawei Zhou and Liqing Zhang},
-  year         = {2026},
-  eprint       = {2606.19808},
-  archivePrefix = {arXiv},
-  primaryClass = {cs.CL},
-  url          = {https://arxiv.org/abs/2606.19808}
+@article{dip2026think,
+  title={Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning},
+  author={Dip, Sajib Acharjee and Zhou, Dawei and Zhang, Liqing},
+  journal={arXiv preprint arXiv:2606.19808},
+  year={2026}
 }
 ```
 
